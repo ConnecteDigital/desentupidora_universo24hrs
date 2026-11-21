@@ -1,0 +1,41 @@
+---
+// Galeria de fotos reais. Some sozinha enquanto não houver fotos em src/assets/fotos.
+import { Image } from 'astro:assets';
+import { servicos } from '../data/servicos';
+import { fotoDoServico } from '../data/fotos';
+
+interface Props {
+  limit?: number;
+  exclude?: string;
+  title?: string;
+  soft?: boolean;
+}
+
+const { limit, exclude, title = 'Trabalhos realizados', soft = false } = Astro.props;
+const itens = servicos
+  .filter((s) => s.slug !== exclude)
+  .map((s) => ({ servico: s, foto: fotoDoServico(s.slug) }))
+  .filter((i) => i.foto)
+  .slice(0, limit);
+---
+
+{
+  itens.length >= 2 && (
+    <section class:list={['section', { 'section-soft': soft }]}>
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Fotos reais</span>
+          <h2>{title}</h2>
+        </div>
+        <div class="gallery">
+          {itens.map(({ servico, foto }) => (
+            <a class="gallery-item" href={`/servicos/${servico.slug}/`}>
+              <Image src={foto!.src} alt={foto!.alt} widths={[300, 450, 600]} sizes="(max-width: 700px) 50vw, 280px" />
+              <span>{servico.nome}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,120 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaButtons from '../../components/CtaButtons.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import FaqList from '../../components/FaqList.astro';
+import Icon from '../../components/Icon.astro';
+import Gallery from '../../components/Gallery.astro';
+import { Image } from 'astro:assets';
+import { fotoDoServico } from '../../data/fotos';
+import { site } from '../../data/site';
+import { servicos, type Servico } from '../../data/servicos';
+import { cidades, cidadePath } from '../../data/cidades';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../data/schema';
+
+export function getStaticPaths() {
+  return servicos.map((servico) => ({ params: { slug: servico.slug }, props: { servico } }));
+}
+
+interface Props {
+  servico: Servico;
+}
+
+const { servico } = Astro.props;
+const crumbs = [
+  { name: 'Início', path: '/' },
+  { name: 'Serviços', path: '/servicos/' },
+  { name: servico.nome, path: `/servicos/${servico.slug}/` },
+];
+const faq = [
+  ...servico.faq,
+  {
+    q: `Em quais cidades vocês fazem ${servico.nome.toLowerCase()}?`,
+    a: `Atendemos ${cidades.length} cidades de Campinas e região, 24 horas por dia: ${cidades.map((c) => c.nome).join(', ')}.`,
+  },
+];
+const foto = fotoDoServico(servico.slug);
+const outros = servicos.filter((s) => s.slug !== servico.slug);
+const msg = `Olá! Vim pelo site da ${site.name} e preciso de ${servico.nome.toLowerCase()}.`;
+const ehFossa = servico.slug === 'limpa-fossa';
+---
+
+<Base
+  title={`${servico.keyword.replace(' 24 horas', '')} 24h em Campinas | Universo 24hrs`}
+  description={servico.metaDescription}
+  schema={[serviceSchema(servico), faqSchema(faq), breadcrumbSchema(crumbs)]}
+>
+  <section class="hero page-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <span class="eyebrow">Serviço 24 horas em Campinas e região</span>
+      <h1>{servico.keyword}</h1>
+      <p class="hero-lead">{servico.resumo} Atendimento 24h, todos os dias, em {cidades.length} cidades.</p>
+      <CtaButtons message={msg} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container content-grid">
+      <article class="prose">
+        {servico.intro.map((p) => <p>{p}</p>)}
+
+        {
+          foto && (
+            <figure class="service-figure">
+              <Image src={foto.src} alt={foto.alt} widths={[480, 800, 1100]} sizes="(max-width: 960px) 100vw, 760px" />
+              <figcaption>{servico.nome}: serviço realizado pela {site.name}.</figcaption>
+            </figure>
+          )
+        }
+
+        <h2>{ehFossa ? 'Sinais de que a fossa está cheia' : 'Quando chamar a desentupidora'}</h2>
+        <ul>{servico.sinais.map((s) => <li>{s}</li>)}</ul>
+
+        <h2>Como fazemos o serviço</h2>
+        <ol>{servico.comoFazemos.map((s) => <li>{s}</li>)}</ol>
+
+        <h2>Por que chamar a Universo 24hrs</h2>
+        <ul>
+          <li>Atendimento 24 horas, inclusive fins de semana e feriados</li>
+          <li>Equipamentos profissionais para cada tipo de entupimento</li>
+          <li>Sem quebra-quebra sempre que possível</li>
+          <li>{cidades.length} cidades atendidas em Campinas e região</li>
+        </ul>
+
+        <h2>Perguntas frequentes</h2>
+        <FaqList items={faq} />
+
+        <h2>{servico.nome} por cidade</h2>
+        <p>
+          Fazemos {servico.nome.toLowerCase()} em:
+          {cidades.map((c, i) => (
+            <>
+              <a href={cidadePath(c)}>{c.nome}</a>{i < cidades.length - 1 ? ', ' : '.'}
+            </>
+          ))}
+        </p>
+      </article>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h2>Atendimento imediato</h2>
+          <p>Fale agora com a {site.name}. Atendemos 24 horas, todos os dias.</p>
+          <CtaButtons message={msg} size="md" />
+        </div>
+        <div class="side-list">
+          <h2>Outros serviços</h2>
+          <ul>
+            {outros.map((s) => <li><a href={`/servicos/${s.slug}/`}>{s.nome}</a></li>)}
+            <li><a href="/servicos/"><strong>Ver todos <Icon name="arrow" size={14} /></strong></a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Gallery limit={8} exclude={servico.slug} title="Outros serviços que fizemos" soft />
+
+  <CtaBand message={msg} title={ehFossa ? 'Fossa cheia agora?' : 'Entupiu agora?'} />
+</Base>

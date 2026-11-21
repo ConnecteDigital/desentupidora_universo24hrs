@@ -1,0 +1,25 @@
+---
+import CtaButtons from './CtaButtons.astro';
+
+interface Props {
+  title?: string;
+  text?: string;
+  message?: string;
+}
+
+const {
+  title = 'Entupiu? Fossa cheia?',
+  text = 'Plantão 24 horas em Campinas e região. Chame no WhatsApp ou ligue agora.',
+  message,
+} = Astro.props;
+---
+
+<section class="cta-band">
+  <div class="container cta-band-inner">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <CtaButtons message={message} />
+  </div>
+</section>

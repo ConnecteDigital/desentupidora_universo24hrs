@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaButtons from '../components/CtaButtons.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { cidades, cidadesPorRegiao, cidadePath } from '../data/cidades';
+import { breadcrumbSchema } from '../data/schema';
+
+const crumbs = [
+  { name: 'Início', path: '/' },
+  { name: 'Cidades atendidas', path: '/areas-atendidas/' },
+];
+---
+
+<Base
+  title="Cidades Atendidas: Desentupidora 24h em Campinas e Região | Universo 24hrs"
+  description={`Desentupidora e limpa fossa 24 horas em ${cidades.length} cidades: Campinas, Americana, Indaiatuba, Sumaré, Valinhos, Mogi Guaçu, Serra Negra e mais.`}
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <section class="hero page-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <span class="eyebrow">Cidades atendidas</span>
+      <h1>Desentupidora em {cidades.length} cidades</h1>
+      <p class="hero-lead">Atendemos 24 horas na Região de Campinas, no Circuito das Águas e na Mogiana. Encontre a sua cidade.</p>
+      <CtaButtons />
+    </div>
+  </section>
+  <section class="section section-soft">
+    <div class="container zones">
+      {
+        cidadesPorRegiao().map((g) => (
+          <div class="zone">
+            <h2 style="font-size:1.6rem">{g.regiao}</h2>
+            <ul>
+              {g.cidades.map((c) => (
+                <li>
+                  <a href={cidadePath(c)}>
+                    <Icon name="pin" size={16} /> Desentupidora em {c.nome}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+  <CtaBand />
+</Base>
