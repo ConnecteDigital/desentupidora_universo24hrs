@@ -6,11 +6,11 @@ import type { ImageMetadata } from 'astro';
 const arquivos = import.meta.glob<{ default: ImageMetadata }>('../assets/fotos/*.jpg', { eager: true });
 
 const alts: Record<string, string> = {
-  'desentupimento-de-vaso-sanitario': 'Desentupimento de vaso sanitário feito pela Desentupidora Universo 24hrs',
-  'desentupimento-de-ralo': 'Desentupimento de ralo de banheiro com máquina de cabo rotativo',
-  'desentupimento-de-esgoto': 'Desentupimento de rede de esgoto em caixa de inspeção',
-  'desentupimento-de-pia': 'Desentupimento de pia de cozinha com gordura acumulada',
-  'desentupimento-de-cano': 'Desentupimento de cano e tubulação com equipamento profissional',
+  'desentupimento-de-vaso-sanitario': 'Desentupidor usando máquina de cabo rotativo para desentupir vaso sanitário',
+  'desentupimento-de-ralo': 'Máquina de cabo rotativo desentupindo ralo de piso',
+  'desentupimento-de-esgoto': 'Desentupidor com máscara e luvas desentupindo caixa de esgoto com máquina de mola',
+  'desentupimento-de-pia': 'Desentupidor limpando o sifão embaixo da pia da cozinha',
+  'desentupimento-de-cano': 'Desentupidor passando cabo de desentupimento na tubulação pelo ralo do piso',
   'limpa-fossa': 'Caminhão limpa fossa fazendo o esgotamento de fossa séptica',
 };
 

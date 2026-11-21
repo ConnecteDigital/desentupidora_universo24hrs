@@ -5,7 +5,6 @@ import CtaBand from '../components/CtaBand.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import FaqList from '../components/FaqList.astro';
 import Icon from '../components/Icon.astro';
-import Gallery from '../components/Gallery.astro';
 import { Image } from 'astro:assets';
 import { fotoDoServico } from '../data/fotos';
 import { site } from '../data/site';
@@ -37,8 +36,8 @@ const faq = [
   },
 ];
 
-const fotoHero = fotoDoServico('desentupimento-de-esgoto');
-const fotoSobre = fotoDoServico('limpa-fossa');
+const fotoHero = fotoDoServico('desentupimento-de-ralo');
+const fotoSobre = fotoDoServico('limpa-fossa') ?? fotoDoServico('desentupimento-de-vaso-sanitario');
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.data.getTime() - a.data.data.getTime())
@@ -167,7 +166,6 @@ const posts = (await getCollection('blog'))
 
   <CtaBand />
 
-  <Gallery limit={6} title="Trabalhos realizados" />
 
   <section class="section section-soft" id="areas">
     <div class="container">

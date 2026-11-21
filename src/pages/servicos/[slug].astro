@@ -64,7 +64,7 @@ const ehFossa = servico.slug === 'limpa-fossa';
           foto && (
             <figure class="service-figure">
               <Image src={foto.src} alt={foto.alt} widths={[480, 800, 1100]} sizes="(max-width: 960px) 100vw, 760px" />
-              <figcaption>{servico.nome}: serviço realizado pela {site.name}.</figcaption>
+              <figcaption>{servico.nome} com equipamento profissional.</figcaption>
             </figure>
           )
         }
@@ -114,7 +114,7 @@ const ehFossa = servico.slug === 'limpa-fossa';
     </div>
   </section>
 
-  <Gallery limit={8} exclude={servico.slug} title="Outros serviços que fizemos" soft />
+  <Gallery limit={8} exclude={servico.slug} title="Outros serviços" soft />
 
   <CtaBand message={msg} title={ehFossa ? 'Fossa cheia agora?' : 'Entupiu agora?'} />
 </Base>
