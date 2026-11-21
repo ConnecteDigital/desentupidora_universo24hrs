@@ -11,7 +11,7 @@ const alts: Record<string, string> = {
   'desentupimento-de-esgoto': 'Desentupidor com máscara e luvas desentupindo caixa de esgoto com máquina de mola',
   'desentupimento-de-pia': 'Desentupidor limpando o sifão embaixo da pia da cozinha',
   'desentupimento-de-cano': 'Desentupidor passando cabo de desentupimento na tubulação pelo ralo do piso',
-  'limpa-fossa': 'Caminhão limpa fossa fazendo o esgotamento de fossa séptica',
+  'limpa-fossa': 'Equipe com mangueira do caminhão limpa fossa fazendo o esgotamento de fossa séptica',
 };
 
 export interface Foto {
